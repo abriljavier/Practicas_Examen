@@ -3,15 +3,27 @@ $allUsers = $dataUsuarios->showAllUsers();
 $allRoles = $dataRoles->showAllRoles();
 //CREAR NUEVO USER
 if (isset($_POST['createForm'])) {
-    if (isset($_POST['idToEdit']))
-        $nameUser = $_POST['name'];
-    $passwordUser = md5($_POST['password']);
-    $rol = $_POST['rol'];
-    $data = [$nameUser, $passwordUser, $rol];
-    if ($dataUsuarios->createUser($data)) {
-        header("Location: ./private.php?showUsuarios");
+    if (isset($_POST['idToEdit']) && ($_POST['idToEdit'] != "")) {
+        $id = $_POST['idToEdit'];
+        $newName = $_POST['name'];
+        $passwordUser = md5($_POST['password']);
+        $rol = $_POST['rol'];
+        $data = [$id, $nameUser, $passwordUser, $rol];
+        if ($dataUsuarios->updateUser($data)) {
+            header("Location: ./private.php?showUsuarios");
+        } else {
+            echo "Ha ocurrido un error";
+        }
     } else {
-        echo "Ha ocurrido un error";
+        $nameUser = $_POST['name'];
+        $passwordUser = md5($_POST['password']);
+        $rol = $_POST['rol'];
+        $data = [$nameUser, $passwordUser, $rol];
+        if ($dataUsuarios->createUser($data)) {
+            header("Location: ./private.php?showUsuarios");
+        } else {
+            echo "Ha ocurrido un error";
+        }
     }
 }
 //BORRAR UN USER
@@ -34,7 +46,6 @@ if (isset($_GET['edi'])) {
     $idToEdit = $_GET['id'];
     $data = [$idToEdit];
     $userToEdit = $dataUsuarios->getUserByID($data);
-    print_r($userToEdit);
 }
 
 
@@ -92,7 +103,7 @@ if (isset($_GET['edi'])) {
                 <?php
             } ?>
         </select>
-        <input type="text" name="idToEdit" value="<?php echo isset($userToEdit) ? $userToEdit['id'] : "" ?>">
+        <input type="hidden" name="idToEdit" value="<?php echo isset($userToEdit) ? $userToEdit['id'] : "" ?>">
         <p></p>
         <input type="submit" value="Crear" name="createForm">
     </form>

@@ -3,11 +3,15 @@
 //Todos los include
 require("./CRUD/CRUDUser.php");
 require("./CRUD/CRUDRoles.php");
+require("./CRUD/CRUDLiga.php");
+require("./CRUD/CRUDJugadores.php");
 include("./sessions/inactividad.php");
 include("./sessions/checksession.php");
 include("./templates/header.php");
 $dataUsuarios = new User();
 $dataRoles = new Rol();
+$dataLigas = new Liga();
+$dataJugadores = new Jugador();
 
 //LA VARIABLE QUE CONTROLA EL ACCESO
 $baddAccess = false;
@@ -73,6 +77,12 @@ if ($baddAccess) {
         <div class="mainContent">
         <?php if (isset($_GET['showUsuarios'])) {
             include("./tables/Usuarios.php");
+        } else if (isset($_GET['showRoles'])) {
+            include("./tables/Roles.php");
+        } else if (isset($_GET['showLigas'])) {
+            include("./tables/Liga.php");
+        } else if (isset($_GET['showJugadores'])) {
+            include("./tables/Jugadores.php");
         } ?>
         </div>
     <?php

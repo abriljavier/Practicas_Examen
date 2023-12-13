@@ -1,77 +1,78 @@
 <?php
 require_once("Connection.php");
 
-class Rol
+class Jugador
 {
-    public function showAllRoles()
+    public function showAllJugadores()
     {
         $sqlConnection = new Connection();
         $mySQL = $sqlConnection->getConnection();
-        $sql = "SELECT * FROM roles";
+        $sql = "SELECT * FROM jugadores JOIN liga ON jugadores.liga=liga.id_liga";
         $result = $mySQL->query($sql);
         $sqlConnection->closeConnection($mySQL);
         return $result->fetch_all(MYSQLI_BOTH);
     }
-    public function getRolByName($data)
+
+    public function getJugadoresByName($data)
     {
         $sqlConnection = new Connection();
         $mySQL = $sqlConnection->getConnection();
-        $sql = "SELECT * FROM roles WHERE roles.rol = '$data'";
+        $sql = "SELECT * FROM jugadores WHERE jugadores.nombre = '$data'";
         $result = $mySQL->query($sql);
         $sqlConnection->closeConnection($mySQL);
         return $result->fetch_array(MYSQLI_ASSOC);
     }
-    public function getRolByID($data)
+    public function getJugadorByID($data)
     {
         $sqlConnection = new Connection();
         $mySQL = $sqlConnection->getConnection();
-        $sql = "SELECT * FROM roles WHERE roles.id = '$data[0]'";
+        $sql = "SELECT * FROM jugadores WHERE jugadores.id = '$data[0]'";
         $result = $mySQL->query($sql);
         $sqlConnection->closeConnection($mySQL);
         return $result->fetch_array(MYSQLI_ASSOC);
     }
-    public function createRol($data)
+    public function createJugador($data)
     {
         $sqlConnection = new Connection();
         $mySQL = $sqlConnection->getConnection();
-        $stmt = $mySQL->prepare("INSERT INTO roles (id, rol) VALUES (NULL, ?)");
-        $stmt->bind_param("s", $data[0]);
+        $stmt = $mySQL->prepare("INSERT INTO jugadores (id, nombre, liga, img) VALUES (NULL, ?, ?, ? )");
+        $stmt->bind_param("sis", $data[0], $data[1], $data[2]);
         try {
             $stmt->execute();
         } catch (Exception $e) {
-            die("No se puede insertar el usuario");
+            die("No se puede insertar el jugador");
         }
         $stmt->close();
         $sqlConnection->closeConnection($mySQL);
         return true;
     }
 
-    public function deleteRol($data)
+    public function deleteJugador($data)
     {
         $sqlConnection = new Connection();
         $mySQL = $sqlConnection->getConnection();
-        $stmt = $mySQL->prepare("DELETE FROM roles WHERE roles.id = ?");
+        $stmt = $mySQL->prepare("DELETE FROM jugadores WHERE jugadores.id = ?");
         $stmt->bind_param("i", $data[0]);
         try {
             $stmt->execute();
         } catch (Exception $e) {
-            die("No se puede borrar el usuario");
+            die("No se puede borrar el jugador");
         }
         $stmt->close();
         $sqlConnection->closeConnection($mySQL);
         return true;
     }
 
-    public function updateRol($data)
+    public function updateJugador($data)
     {
         $sqlConnection = new Connection();
         $mySQL = $sqlConnection->getConnection();
-        $stmt = $mySQL->prepare("UPDATE roles SET rol = ? WHERE roles.id = ?");
-        $stmt->bind_param("si", $data[1], $data[0]);
+        $stmt = $mySQL->prepare("UPDATE jugadores SET nombre = ?, liga = ?, img = ? WHERE jugadores.id = ?");
+        $stmt->bind_param("sisi", $data[1], $data[2], $data[3], $data[0]);
         try {
             $stmt->execute();
         } catch (Exception $e) {
-            die("No se puede actualizar el usuario");
+            die("No se puede actualizar el jugador");
         }
         $stmt->close();
         $sqlConnection->closeConnection($mySQL);

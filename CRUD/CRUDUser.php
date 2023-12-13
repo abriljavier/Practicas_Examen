@@ -62,4 +62,20 @@ class User
         $sqlConnection->closeConnection($mySQL);
         return true;
     }
+
+    public function updateUser($data)
+    {
+        $sqlConnection = new Connection();
+        $mySQL = $sqlConnection->getConnection();
+        $stmt = $mySQL->prepare("UPDATE usuarios SET usuario = ?, password = ?, rol = ? WHERE usuarios.id = ?");
+        $stmt->bind_param("ssii", $data[1], $data[2], $data[3], $data[0]);
+        try {
+            $stmt->execute();
+        } catch (Exception $e) {
+            die("No se puede actualizar el usuario");
+        }
+        $stmt->close();
+        $sqlConnection->closeConnection($mySQL);
+        return true;
+    }
 }
