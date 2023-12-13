@@ -7,7 +7,7 @@ class Connection
     private $server = "localhost";
     private $user = "root";
     private $password = "";
-    private $db = "dnd";
+    private $db = "myplayers";
 
     public function getConnection() // Corrección del nombre del método
     {

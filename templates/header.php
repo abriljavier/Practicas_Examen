@@ -12,4 +12,14 @@
 
     <header>
         <h1>Practicas Examen</h1>
+        <?php
+        if (isset($_SESSION['user'])) {
+            ?>
+            <div>
+                <a href="./index.php?noSession">Cerrar Sesión</a>
+            </div>
+            <?php
+        }
+        ?>
+
     </header>
