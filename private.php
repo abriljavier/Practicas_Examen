@@ -5,6 +5,7 @@ require("./CRUD/CRUDUser.php");
 require("./CRUD/CRUDRoles.php");
 require("./CRUD/CRUDLiga.php");
 require("./CRUD/CRUDJugadores.php");
+include("./img/resize-class.php");
 include("./sessions/inactividad.php");
 include("./sessions/checksession.php");
 include("./templates/header.php");

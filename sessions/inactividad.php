@@ -8,6 +8,7 @@ if (isset($_SESSION['tiempo'])) {
     if ($vida_session > $inactivo) {
         session_unset();
         session_destroy();
+        //CAMBIA EL LOCATION
         header("Location: ../index.php");
         exit();
 
